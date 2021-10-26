@@ -23,66 +23,11 @@ export type Meta = {
   count?: Maybe<Scalars['Int']>;
 };
 
-export type Mutation = {
-  __typename?: 'Mutation';
-  createTweet?: Maybe<Tweet>;
-  deleteTweet?: Maybe<Tweet>;
-  markTweetRead?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationCreateTweetArgs = {
-  body?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationDeleteTweetArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationMarkTweetReadArgs = {
-  id: Scalars['ID'];
-};
-
 export type Notification = {
   __typename?: 'Notification';
   date?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   type?: Maybe<Scalars['String']>;
-};
-
-export type Query = {
-  __typename?: 'Query';
-  Notifications?: Maybe<Array<Maybe<Notification>>>;
-  NotificationsMeta?: Maybe<Meta>;
-  Tweet?: Maybe<Tweet>;
-  Tweets?: Maybe<Array<Maybe<Tweet>>>;
-  TweetsMeta?: Maybe<Meta>;
-  User?: Maybe<User>;
-};
-
-
-export type QueryNotificationsArgs = {
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryTweetArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryTweetsArgs = {
-  limit?: Maybe<Scalars['Int']>;
-  skip?: Maybe<Scalars['Int']>;
-  sort_field?: Maybe<Scalars['String']>;
-  sort_order?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryUserArgs = {
-  id: Scalars['ID'];
 };
 
 export type Stat = {
@@ -114,10 +59,65 @@ export type User = {
   username?: Maybe<Scalars['String']>;
 };
 
+export type Mutation_Root = {
+  __typename?: 'mutation_root';
+  createTweet?: Maybe<Tweet>;
+  deleteTweet?: Maybe<Tweet>;
+  markTweetRead?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type Mutation_RootCreateTweetArgs = {
+  body?: Maybe<Scalars['String']>;
+};
+
+
+export type Mutation_RootDeleteTweetArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type Mutation_RootMarkTweetReadArgs = {
+  id: Scalars['ID'];
+};
+
+export type Query_Root = {
+  __typename?: 'query_root';
+  Notifications?: Maybe<Array<Maybe<Notification>>>;
+  NotificationsMeta?: Maybe<Meta>;
+  Tweet?: Maybe<Tweet>;
+  Tweets?: Maybe<Array<Maybe<Tweet>>>;
+  TweetsMeta?: Maybe<Meta>;
+  User?: Maybe<User>;
+};
+
+
+export type Query_RootNotificationsArgs = {
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type Query_RootTweetArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type Query_RootTweetsArgs = {
+  limit?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  sort_field?: Maybe<Scalars['String']>;
+  sort_order?: Maybe<Scalars['String']>;
+};
+
+
+export type Query_RootUserArgs = {
+  id: Scalars['ID'];
+};
+
 export type FooQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FooQuery = { __typename?: 'Query', Tweets?: Array<{ __typename?: 'Tweet', id: string, body?: string | null | undefined } | null | undefined> | null | undefined };
+export type FooQuery = { __typename?: 'query_root', Tweets?: Array<{ __typename?: 'Tweet', id: string, body?: string | null | undefined } | null | undefined> | null | undefined };
 
 
 export const FooDocument = gql`
@@ -143,13 +143,13 @@ export type GraphCacheKeysConfig = {
 }
 
 export type GraphCacheResolvers = {
-  Query?: {
-    Tweet?: GraphCacheResolver<WithTypename<Query>, QueryTweetArgs, WithTypename<Tweet> | string>,
-    Tweets?: GraphCacheResolver<WithTypename<Query>, QueryTweetsArgs, Array<WithTypename<Tweet> | string>>,
-    TweetsMeta?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, WithTypename<Meta> | string>,
-    User?: GraphCacheResolver<WithTypename<Query>, QueryUserArgs, WithTypename<User> | string>,
-    Notifications?: GraphCacheResolver<WithTypename<Query>, QueryNotificationsArgs, Array<WithTypename<Notification> | string>>,
-    NotificationsMeta?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, WithTypename<Meta> | string>
+  query_root?: {
+    Tweet?: GraphCacheResolver<WithTypename<Query_Root>, Query_RootTweetArgs, WithTypename<Tweet> | string>,
+    Tweets?: GraphCacheResolver<WithTypename<Query_Root>, Query_RootTweetsArgs, Array<WithTypename<Tweet> | string>>,
+    TweetsMeta?: GraphCacheResolver<WithTypename<Query_Root>, Record<string, never>, WithTypename<Meta> | string>,
+    User?: GraphCacheResolver<WithTypename<Query_Root>, Query_RootUserArgs, WithTypename<User> | string>,
+    Notifications?: GraphCacheResolver<WithTypename<Query_Root>, Query_RootNotificationsArgs, Array<WithTypename<Notification> | string>>,
+    NotificationsMeta?: GraphCacheResolver<WithTypename<Query_Root>, Record<string, never>, WithTypename<Meta> | string>
   },
   Meta?: {
     count?: GraphCacheResolver<WithTypename<Meta>, Record<string, never>, Scalars['Int'] | string>
@@ -191,9 +191,9 @@ export type GraphCacheOptimisticUpdaters = {
 
 export type GraphCacheUpdaters = {
   Mutation?: {
-    createTweet?: GraphCacheUpdateResolver<{ createTweet: Maybe<WithTypename<Tweet>> }, MutationCreateTweetArgs>,
-    deleteTweet?: GraphCacheUpdateResolver<{ deleteTweet: Maybe<WithTypename<Tweet>> }, MutationDeleteTweetArgs>,
-    markTweetRead?: GraphCacheUpdateResolver<{ markTweetRead: Maybe<Scalars['Boolean']> }, MutationMarkTweetReadArgs>
+    createTweet?: GraphCacheUpdateResolver<{ createTweet: Maybe<WithTypename<Tweet>> }, Mutation_RootCreateTweetArgs>,
+    deleteTweet?: GraphCacheUpdateResolver<{ deleteTweet: Maybe<WithTypename<Tweet>> }, Mutation_RootDeleteTweetArgs>,
+    markTweetRead?: GraphCacheUpdateResolver<{ markTweetRead: Maybe<Scalars['Boolean']> }, Mutation_RootMarkTweetReadArgs>
   },
   Subscription?: {},
 };
@@ -210,10 +210,10 @@ import { IntrospectionQuery } from 'graphql';
 export default {
   "__schema": {
     "queryType": {
-      "name": "Query"
+      "name": "query_root"
     },
     "mutationType": {
-      "name": "Mutation"
+      "name": "mutation_root"
     },
     "subscriptionType": null,
     "types": [
@@ -228,69 +228,6 @@ export default {
               "name": "Any"
             },
             "args": []
-          }
-        ],
-        "interfaces": []
-      },
-      {
-        "kind": "OBJECT",
-        "name": "Mutation",
-        "fields": [
-          {
-            "name": "createTweet",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Tweet",
-              "ofType": null
-            },
-            "args": [
-              {
-                "name": "body",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              }
-            ]
-          },
-          {
-            "name": "deleteTweet",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Tweet",
-              "ofType": null
-            },
-            "args": [
-              {
-                "name": "id",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "name": "markTweetRead",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": [
-              {
-                "name": "id",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              }
-            ]
           }
         ],
         "interfaces": []
@@ -322,132 +259,6 @@ export default {
               "name": "Any"
             },
             "args": []
-          }
-        ],
-        "interfaces": []
-      },
-      {
-        "kind": "OBJECT",
-        "name": "Query",
-        "fields": [
-          {
-            "name": "Notifications",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Notification",
-                "ofType": null
-              }
-            },
-            "args": [
-              {
-                "name": "limit",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              }
-            ]
-          },
-          {
-            "name": "NotificationsMeta",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Meta",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "Tweet",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Tweet",
-              "ofType": null
-            },
-            "args": [
-              {
-                "name": "id",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "name": "Tweets",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Tweet",
-                "ofType": null
-              }
-            },
-            "args": [
-              {
-                "name": "limit",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              },
-              {
-                "name": "skip",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              },
-              {
-                "name": "sort_field",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              },
-              {
-                "name": "sort_order",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              }
-            ]
-          },
-          {
-            "name": "TweetsMeta",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Meta",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "User",
-            "type": {
-              "kind": "OBJECT",
-              "name": "User",
-              "ofType": null
-            },
-            "args": [
-              {
-                "name": "id",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              }
-            ]
           }
         ],
         "interfaces": []
@@ -605,6 +416,195 @@ export default {
               "name": "Any"
             },
             "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "mutation_root",
+        "fields": [
+          {
+            "name": "createTweet",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Tweet",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "body",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "deleteTweet",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Tweet",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "markTweetRead",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "query_root",
+        "fields": [
+          {
+            "name": "Notifications",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Notification",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "NotificationsMeta",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Meta",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "Tweet",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Tweet",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "Tweets",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Tweet",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "skip",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "sort_field",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "sort_order",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "TweetsMeta",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Meta",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "User",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
           }
         ],
         "interfaces": []

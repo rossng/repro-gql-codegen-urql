@@ -40,7 +40,7 @@ type Meta {
 scalar Url
 scalar Date
 
-type Query {
+type query_root {
   Tweet(id: ID!): Tweet
   Tweets(limit: Int, skip: Int, sort_field: String, sort_order: String): [Tweet]
   TweetsMeta: Meta
@@ -49,8 +49,13 @@ type Query {
   NotificationsMeta: Meta
 }
 
-type Mutation {
+type mutation_root {
   createTweet(body: String): Tweet
   deleteTweet(id: ID!): Tweet
   markTweetRead(id: ID!): Boolean
+}
+
+schema {
+  query: query_root
+  mutation: mutation_root
 }
